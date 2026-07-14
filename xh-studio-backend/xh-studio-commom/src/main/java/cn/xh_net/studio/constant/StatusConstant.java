@@ -11,6 +11,9 @@ public class StatusConstant {
     // 成功
     public static final Integer SUCCESS = 200;
 
+    // 失败
+    public static final Integer FAIL = 400;
+
     // 未授权
     public static final Integer UNAUTHORIZED = 401;
 

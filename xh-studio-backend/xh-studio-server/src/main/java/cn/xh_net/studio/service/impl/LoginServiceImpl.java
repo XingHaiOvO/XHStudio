@@ -3,6 +3,7 @@ package cn.xh_net.studio.service.impl;
 import cn.xh_net.studio.bo.LoginUser;
 import cn.xh_net.studio.dto.UserDTO;
 import cn.xh_net.studio.prpperties.JwtProperties;
+import cn.xh_net.studio.service.ICaptchaService;
 import cn.xh_net.studio.service.ILoginService;
 import cn.xh_net.studio.utils.JwtUtil;
 import cn.xh_net.studio.utils.RedisUtil;
@@ -32,16 +33,20 @@ public class LoginServiceImpl implements ILoginService {
 
     private final JwtProperties jwtProperties;
 
+    private final ICaptchaService captchaService;
+
     /**
      * 构造函数
      */
     public LoginServiceImpl(@Qualifier("userAuthenticationManager") AuthenticationManager userAuthenticationManager,
                             @Qualifier("adminAuthenticationManager") AuthenticationManager adminAuthenticationManager,
-                            RedisUtil redisUtil, JwtProperties jwtProperties) {
+                            RedisUtil redisUtil, JwtProperties jwtProperties,
+                            ICaptchaService captchaService) {
         this.userAuthenticationManager = userAuthenticationManager;
         this.adminAuthenticationManager = adminAuthenticationManager;
         this.redisUtil = redisUtil;
         this.jwtProperties = jwtProperties;
+        this.captchaService = captchaService;
     }
 
     /**
@@ -86,6 +91,10 @@ public class LoginServiceImpl implements ILoginService {
      * @return 用户登录令牌及用户信息
      */
     private LoginVO login (UserDTO userDTO, AuthenticationManager authenticationManager) {
+
+        // 校验图形验证码
+        captchaService.verifyCaptcha(userDTO.getCaptchaId(), userDTO.getCaptchaCode());
+
         // 封装 Authentication 信息
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());

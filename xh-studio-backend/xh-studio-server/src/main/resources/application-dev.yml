@@ -6,3 +6,11 @@ xh:
     database: xh_studio
     username: root
     password: 1234
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 123456
+      database: 2
+  jwt:
+    secret-key: x7K9mP2qR5sV8wY1zA3bC4dE6fG0hI2jK5lM7nO9pQ1rS3tU5vW8xY0zA2bC4dE=

@@ -41,3 +41,10 @@ xh:
     ttl: 7200000
     #设置前端传递的令牌名称
     token-name: Authorization
+  captcha:
+    #设置验证码过期时间（分钟）
+    ttl: 2
+    #设置验证码图片宽度
+    width: 200
+    #设置验证码图片高度
+    height: 100
