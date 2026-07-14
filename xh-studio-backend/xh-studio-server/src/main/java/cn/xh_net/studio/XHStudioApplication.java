@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
-* XHStudioApplication主程序
+ * XHStudioApplication主程序
  */
 @SpringBootApplication
 public class XHStudioApplication

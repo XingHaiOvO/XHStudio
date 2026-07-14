@@ -39,7 +39,7 @@ public class JacksonConfig {
 
             // 3.为 java8 时间类型分别设置序列化器和反序列化器
             builder.serializers(
-                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
                     new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)),
                     new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT))
             );

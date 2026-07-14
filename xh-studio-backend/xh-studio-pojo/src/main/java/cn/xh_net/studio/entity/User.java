@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 public class User implements Serializable {
 
     // 主键
-    private String id;
+    private Long id;
 
     // 用户名
     private String username;

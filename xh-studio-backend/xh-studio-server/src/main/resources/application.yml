@@ -9,6 +9,13 @@ spring:
     url: jdbc:mysql://${xh.datasource.host}:${xh.datasource.port}/${xh.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: ${xh.datasource.username}
     password: ${xh.datasource.password}
+  data:
+    redis:
+      host: ${xh.data.redis.host}
+      port: ${xh.data.redis.port}
+      password: ${xh.data.redis.password}
+      database: ${xh.data.redis.database}
+
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -17,8 +24,20 @@ mybatis-plus:
 
 logging:
   level:
-    com:
-      sky:
-        mapper: debug
-        service: info
-        controller: info
+    cn:
+      xh_net:
+        studio:
+          mapper: debug
+          service: debug
+          controller: debug
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: TRACE
+
+xh:
+  jwt:
+    #设置jwt签名加密使用的密钥
+    secret-key: ${xh.jwt.secret-key}
+    #设置jwt过期时间
+    ttl: 7200000
+    #设置前端传递的令牌名称
+    token-name: Authorization

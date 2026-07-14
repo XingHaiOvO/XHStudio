@@ -16,14 +16,23 @@ public class CommonConstant {
     public static final Integer NOT_DELETED = 0;
 
     // 启用
-    public static final Integer ENABLED = 0;
+    public static final Integer ENABLED = 1;
 
     // 禁用
-    public static final Integer DISABLED = 1;
+    public static final Integer DISABLED = 0;
 
     // 不公开
     public static final Integer NOT_PUBLIC = 0;
 
     // 公开
     public static final Integer PUBLIC = 1;
+
+    // 用户角色
+    public static final Integer ROLE_USER = 3;
+
+    // 管理员角色
+    public static final Integer ROLE_ADMIN = 2;
+
+    // 超级管理员角色
+    public static final Integer ROLE_SUPER_ADMIN = 1;
 }
