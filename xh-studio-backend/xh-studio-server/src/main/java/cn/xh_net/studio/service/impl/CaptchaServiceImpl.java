@@ -48,10 +48,10 @@ public class CaptchaServiceImpl implements ICaptchaService {
         String captchaCode = captcha.getCode();
 
         // 将验证码文本存储到Redis中
-        redisUtil.setCacheObject(captchaId, captchaCode, captchaProperties.getTtl(), TimeUnit.MINUTES);
+        redisUtil.setCacheObject("captcha:" + captchaId, captchaCode, captchaProperties.getTtl(), TimeUnit.MINUTES);
 
         // 获取验证码图片Base64编码
-        String captchaImage = "data:image/png;base64," +captcha.getImageBase64();
+        String captchaImage = "data:image/png;base64," + captcha.getImageBase64();
 
         return new CaptchaVO(captchaId, captchaImage);
     }
@@ -63,8 +63,10 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     public void verifyCaptcha(String captchaId, String captchaCode) {
 
+        String key = "captcha:" + captchaId;
+
         // 从Redis中获取验证码文本
-        String cacheCaptchaCode = redisUtil.getCacheObject(captchaId);
+        String cacheCaptchaCode = redisUtil.getCacheObject(key);
 
         // 判断缓存验证码是否为空
         if (cacheCaptchaCode == null) {
@@ -77,7 +79,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         }
 
         // 删除Redis中的验证码
-        redisUtil.deleteCacheObject(captchaId);
+        redisUtil.deleteCacheObject(key);
 
     }
 }

@@ -51,5 +51,7 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-captcha</artifactId>
         </dependency>
+
+
     </dependencies>
 </project>
