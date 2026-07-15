@@ -53,7 +53,7 @@ public class PasswordServiceImpl implements IPasswordService {
 
         // 查询Redis中该邮箱请求次数是否超过3次
         String key = "reset_password:count:" + email;
-        int count = redisUtil.getCacheObject(key);
+        int count = redisUtil.getCacheObject(key) == null ? 0 : redisUtil.getCacheObject(key);
 
         if (count == 0) {    // 第一次请求
             count = 1;
