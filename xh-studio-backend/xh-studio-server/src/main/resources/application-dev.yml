@@ -14,3 +14,11 @@ xh:
       database: 2
   jwt:
     secret-key: x7K9mP2qR5sV8wY1zA3bC4dE6fG0hI2jK5lM7nO9pQ1rS3tU5vW8xY0zA2bC4dE=
+
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    username: noreply@xh-net.com
+    password: yTALnvAujteY9rkh
+    protocol: smtp
+    default-encoding: UTF-8

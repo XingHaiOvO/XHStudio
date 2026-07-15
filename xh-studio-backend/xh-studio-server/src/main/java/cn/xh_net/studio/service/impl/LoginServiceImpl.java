@@ -100,9 +100,7 @@ public class LoginServiceImpl implements ILoginService {
                 new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
 
         // 通过 AuthenticationManager 进行认证
-        Authentication authenticated = null;
-
-        authenticated = authenticationManager.authenticate(authenticationToken);
+        Authentication authenticated = authenticationManager.authenticate(authenticationToken);
 
 
         // 从 Authentication 对象中获取用户信息

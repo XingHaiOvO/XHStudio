@@ -1,6 +1,7 @@
 package cn.xh_net.studio.service;
 
 
+import cn.xh_net.studio.dto.PasswordDTO;
 import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
@@ -18,4 +19,10 @@ public interface IPasswordService {
      * @param email 邮箱
      */
     void resetPasswordRequest(String email) throws MessagingException, UnsupportedEncodingException;
+
+    /**
+     * 重置密码确认
+     * @param passwordDTO 密码DTO
+     */
+    void resetPassword(PasswordDTO passwordDTO);
 }

@@ -1,18 +1,23 @@
 package cn.xh_net.studio.service.impl;
 
+import cn.xh_net.studio.dto.PasswordDTO;
 import cn.xh_net.studio.entity.User;
-import cn.xh_net.studio.mapper.UserMapper;
+import cn.xh_net.studio.exception.CaptchaExpiredException;
+import cn.xh_net.studio.exception.CaptchaInvalidException;
+import cn.xh_net.studio.exception.PasswordInvalidException;
 import cn.xh_net.studio.prpperties.ResetPasswordProperties;
 import cn.xh_net.studio.service.IPasswordService;
+import cn.xh_net.studio.service.IUserService;
 import cn.xh_net.studio.utils.CaptchaUtil;
 import cn.xh_net.studio.utils.MailUtil;
 import cn.xh_net.studio.utils.RedisUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class PasswordServiceImpl implements IPasswordService {
 
-    private final UserMapper userMapper;
+    private final IUserService userServicer;
 
     private final RedisUtil redisUtil;
 
@@ -34,14 +39,17 @@ public class PasswordServiceImpl implements IPasswordService {
 
     private final ResetPasswordProperties resetPasswordProperties;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public PasswordServiceImpl(UserMapper userMapper, RedisUtil redisUtil,
+    public PasswordServiceImpl(IUserService userServicer, RedisUtil redisUtil,
                                ResetPasswordProperties resetPasswordProperties,
-                               MailUtil mailUtil) {
-        this.userMapper = userMapper;
+                               MailUtil mailUtil, PasswordEncoder bCryptPasswordEncoder) {
+        this.userServicer = userServicer;
         this.redisUtil = redisUtil;
         this.resetPasswordProperties = resetPasswordProperties;
         this.mailUtil = mailUtil;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     /**
@@ -66,9 +74,7 @@ public class PasswordServiceImpl implements IPasswordService {
         }
 
         // 查询用户是否存在
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("email", email);
-        User user = userMapper.selectOne(queryWrapper);
+        User user = userServicer.selectByEmail(email);
 
         // 判断是否存在
         if (user == null) {
@@ -93,5 +99,47 @@ public class PasswordServiceImpl implements IPasswordService {
         mailUtil.sendMail(email, "reset-password",
                 "【" + mailUtil.getStudioName() + "】重置密码验证码", content);
 
+    }
+
+    /**
+     * 重置密码确认
+     * @param passwordDTO 密码DTO
+     */
+    @Override
+    public void resetPassword(PasswordDTO passwordDTO) {
+        // 查询Redis，检查验证码和邮箱是否正确
+        String email = passwordDTO.getEmail();
+        String key = "reset_password:captcha:" + email;
+        String captcha = redisUtil.getCacheObject(key);
+        if (captcha == null) {
+            throw new CaptchaExpiredException("验证码已过期");
+        }
+
+        // 校验验证码是否正确
+        if (!captcha.equals(passwordDTO.getCode())) {
+            throw new CaptchaInvalidException("验证码错误");
+        }
+
+        // 删除Redis中的验证码
+        redisUtil.deleteCacheObject(key);
+
+        // 校验新密码是否符合要求
+        String newPassword = passwordDTO.getNewPassword();
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new PasswordInvalidException("新密码长度不能小于6位");
+        }
+        newPassword = bCryptPasswordEncoder.encode(newPassword);
+
+        // 修改用户密码
+        User user = userServicer.selectByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        user.setPassword(newPassword);
+        user.setUpdateTime(LocalDateTime.now());
+        userServicer.updateByUser(user);
+
+        // 删除用户所有会话
+        redisUtil.deleteCacheObject("login:" + user.getId());
     }
 }
