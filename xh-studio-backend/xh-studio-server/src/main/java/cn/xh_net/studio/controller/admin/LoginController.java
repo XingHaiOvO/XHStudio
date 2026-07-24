@@ -1,6 +1,6 @@
 package cn.xh_net.studio.controller.admin;
 
-import cn.xh_net.studio.dto.UserDTO;
+import cn.xh_net.studio.dto.UserLoginDTO;
 import cn.xh_net.studio.result.Result;
 import cn.xh_net.studio.service.ILoginService;
 import cn.xh_net.studio.vo.LoginVO;
@@ -29,12 +29,12 @@ public class LoginController {
 
     /**
      * 管理员登录
-     * @param userDTO 登录用户信息
+     * @param userLoginDTO 登录用户信息
      * @return 登录令牌及用户信息
      */
     @PostMapping("/login")
-    public Result<LoginVO> login(@RequestBody UserDTO userDTO) {
-        return Result.success(loginUserService.adminLogin(userDTO));
+    public Result<LoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
+        return Result.success(loginUserService.adminLogin(userLoginDTO));
     }
 
     /**

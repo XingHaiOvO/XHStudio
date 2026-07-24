@@ -1,10 +1,18 @@
 package cn.xh_net.studio.service.impl;
 
+import cn.xh_net.studio.dto.UserDTO;
 import cn.xh_net.studio.entity.User;
 import cn.xh_net.studio.mapper.UserMapper;
+import cn.xh_net.studio.result.PageResult;
 import cn.xh_net.studio.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static cn.xh_net.studio.constant.CommonConstant.*;
 
 /**
  * 用户服务实现类
@@ -38,5 +46,37 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void updateByUser(User user) {
         userMapper.updateById(user);
+    }
+
+    /**
+     * 获取成员列表
+     * @param userDTO 成员查询参数
+     * @return 成员列表
+     */
+    @Override
+    public PageResult<User> getMemberList(UserDTO userDTO) {
+        // 构造分页查询参数
+        Page<User> page = new Page<>(userDTO.getPage(), userDTO.getSize());
+
+        // 构造查询条件
+
+        // 构造角色id列表
+        List<Long> roleIds = new ArrayList<>();
+        if ("admin".equals(userDTO.getRole())) {
+            roleIds.add(ROLE_ADMIN);
+            roleIds.add(ROLE_SUPER_ADMIN);
+        } else if ("member".equals(userDTO.getRole())) {
+            roleIds.add(ROLE_MEMBER);
+        }
+
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.in(!roleIds.isEmpty(), "role_id", roleIds);
+
+        // 昵称查询
+        wrapper.like("nickname", userDTO.getKeyword());
+
+        wrapper.eq("deleted", NOT_DELETED);
+        userMapper.selectPage(page, wrapper);
+        return new PageResult<>(page.getTotal(), page.getRecords());
     }
 }

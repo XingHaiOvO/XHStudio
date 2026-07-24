@@ -3,24 +3,24 @@ package cn.xh_net.studio.dto;
 import lombok.Data;
 
 /**
- * 用户登录信息DTO
+ * 用户查询参数DTO
  * @author XingHai
- * @date 2026/7/13 17:28
- * @description 用于接收用户登录信息
+ * @date 2026/7/24
+ * @description 用于接收用户查询参数
  */
 @Data
 public class UserDTO {
 
-    // 用户名
-    private String username;
+    // 当前页码
+    private Long page;
 
-    // 密码
-    private String password;
+    // 每页数量
+    private Long size;
 
-    // 验证码ID
-    private String captchaId;
+    // 角色
+    private String role;
 
-    // 验证码
-    private String captchaCode;
+    // 搜索关键词
+    private String keyword;
 
 }

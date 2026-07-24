@@ -75,6 +75,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
 
         // 判断验证码是否一致
         if (!cacheCaptchaCode.equalsIgnoreCase(captchaCode)) {
+            redisUtil.deleteCacheObject(key);
             throw new CaptchaInvalidException("验证码错误");
         }
 

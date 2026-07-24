@@ -1,6 +1,8 @@
 package cn.xh_net.studio.service;
 
+import cn.xh_net.studio.dto.UserDTO;
 import cn.xh_net.studio.entity.User;
+import cn.xh_net.studio.result.PageResult;
 
 /**
  * 用户服务接口
@@ -22,4 +24,11 @@ public interface IUserService {
      * @param user 用户
      */
     void updateByUser(User user);
+
+    /**
+     * 获取成员列表
+     * @param userDTO 成员查询参数
+     * @return 成员列表
+     */
+    PageResult<User> getMemberList(UserDTO userDTO);
 }

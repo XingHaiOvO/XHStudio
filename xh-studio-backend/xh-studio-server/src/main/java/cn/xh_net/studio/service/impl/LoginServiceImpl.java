@@ -1,7 +1,7 @@
 package cn.xh_net.studio.service.impl;
 
 import cn.xh_net.studio.bo.LoginUser;
-import cn.xh_net.studio.dto.UserDTO;
+import cn.xh_net.studio.dto.UserLoginDTO;
 import cn.xh_net.studio.prpperties.JwtProperties;
 import cn.xh_net.studio.service.ICaptchaService;
 import cn.xh_net.studio.service.ILoginService;
@@ -51,22 +51,22 @@ public class LoginServiceImpl implements ILoginService {
 
     /**
      * 管理员登录
-     * @param userDTO 登录用户信息
+     * @param userLoginDTO 登录用户信息
      * @return 登录令牌及用户信息
      */
     @Override
-    public LoginVO adminLogin(UserDTO userDTO) {
-        return login(userDTO, adminAuthenticationManager);
+    public LoginVO adminLogin(UserLoginDTO userLoginDTO) {
+        return login(userLoginDTO, adminAuthenticationManager);
     }
 
     /**
      * 普通用户登录
-     * @param userDTO 登录用户信息
+     * @param userLoginDTO 登录用户信息
      * @return 登录令牌及用户信息
      */
     @Override
-    public LoginVO userLogin(UserDTO userDTO) {
-        return login(userDTO, userAuthenticationManager);
+    public LoginVO userLogin(UserLoginDTO userLoginDTO) {
+        return login(userLoginDTO, userAuthenticationManager);
     }
 
     /**
@@ -86,18 +86,18 @@ public class LoginServiceImpl implements ILoginService {
 
     /**
      * 统一登录方法
-     * @param userDTO 登录信息
+     * @param userLoginDTO 登录信息
      * @param authenticationManager 认证管理器
      * @return 用户登录令牌及用户信息
      */
-    private LoginVO login (UserDTO userDTO, AuthenticationManager authenticationManager) {
+    private LoginVO login (UserLoginDTO userLoginDTO, AuthenticationManager authenticationManager) {
 
         // 校验图形验证码
-        captchaService.verifyCaptcha(userDTO.getCaptchaId(), userDTO.getCaptchaCode());
+        captchaService.verifyCaptcha(userLoginDTO.getCaptchaId(), userLoginDTO.getCaptchaCode());
 
         // 封装 Authentication 信息
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
+                new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
 
         // 通过 AuthenticationManager 进行认证
         Authentication authenticated = authenticationManager.authenticate(authenticationToken);

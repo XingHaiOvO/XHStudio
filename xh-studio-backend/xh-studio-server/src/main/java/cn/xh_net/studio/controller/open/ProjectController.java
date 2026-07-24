@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description 项目控制器
  */
 @Slf4j
-@RestController
+@RestController("publicProjectController")
 @RequestMapping("/public/project")
 @RequiredArgsConstructor
 public class ProjectController {

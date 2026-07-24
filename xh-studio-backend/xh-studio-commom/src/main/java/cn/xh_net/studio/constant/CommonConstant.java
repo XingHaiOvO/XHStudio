@@ -28,11 +28,11 @@ public class CommonConstant {
     public static final Integer PUBLIC = 1;
 
     // 用户角色
-    public static final Integer ROLE_USER = 3;
+    public static final Long ROLE_MEMBER = 3L;
 
     // 管理员角色
-    public static final Integer ROLE_ADMIN = 2;
+    public static final Long ROLE_ADMIN = 2L;
 
     // 超级管理员角色
-    public static final Integer ROLE_SUPER_ADMIN = 1;
+    public static final Long ROLE_SUPER_ADMIN = 1L;
 }
