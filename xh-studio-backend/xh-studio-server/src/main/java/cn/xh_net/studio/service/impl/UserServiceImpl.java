@@ -1,10 +1,16 @@
 package cn.xh_net.studio.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.xh_net.studio.dto.UserDTO;
+import cn.xh_net.studio.entity.GrowthExperience;
 import cn.xh_net.studio.entity.User;
+import cn.xh_net.studio.entity.Work;
 import cn.xh_net.studio.mapper.UserMapper;
 import cn.xh_net.studio.result.PageResult;
+import cn.xh_net.studio.service.IGrowthExperienceService;
 import cn.xh_net.studio.service.IUserService;
+import cn.xh_net.studio.service.IWorkService;
+import cn.xh_net.studio.vo.MemberVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +32,10 @@ import static cn.xh_net.studio.constant.CommonConstant.*;
 public class UserServiceImpl implements IUserService {
 
     private final UserMapper userMapper;
+
+    private final IWorkService workService;
+
+    private final IGrowthExperienceService growthExperienceService;
 
     /**
      * 根据邮箱查询用户
@@ -82,5 +92,35 @@ public class UserServiceImpl implements IUserService {
 
         userMapper.selectPage(page, wrapper);
         return new PageResult<>(page.getTotal(), page.getRecords());
+    }
+
+    /**
+     * 获取成员详情
+     * @param id 成员ID
+     * @return 成员详情
+     */
+    @Override
+    public MemberVO getMemberDetail(Long id) {
+
+        MemberVO memberVO = new MemberVO();
+
+        // 从数据库查询用户
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+
+        BeanUtil.copyProperties(user, memberVO);
+
+        // 查询该成员公开作品
+        List<Work> workList = workService.getPublicWorkListByUserId(id);
+        memberVO.setWorks(workList);
+
+        // 查询该成员公开成长经历
+        List<GrowthExperience> growthExperienceList = growthExperienceService
+                .getPublicGrowthExperienceListByUserId(id);
+        memberVO.setGrowthExperiences(growthExperienceList);
+
+        return memberVO;
     }
 }

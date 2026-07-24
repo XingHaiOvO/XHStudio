@@ -39,9 +39,6 @@ public class Work implements Serializable {
     // 作品链接
     private String link;
 
-    // 作品文件url
-    private String fileUrl;
-
     // 作品标签
     private String tags;
 

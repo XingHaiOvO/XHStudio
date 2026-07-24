@@ -3,6 +3,7 @@ package cn.xh_net.studio.service;
 import cn.xh_net.studio.dto.UserDTO;
 import cn.xh_net.studio.entity.User;
 import cn.xh_net.studio.result.PageResult;
+import cn.xh_net.studio.vo.MemberVO;
 
 /**
  * 用户服务接口
@@ -31,4 +32,11 @@ public interface IUserService {
      * @return 成员列表
      */
     PageResult<User> getMemberList(UserDTO userDTO);
+
+    /**
+     * 获取成员详情
+     * @param id 成员ID
+     * @return 成员详情
+     */
+    MemberVO getMemberDetail(Long id);
 }

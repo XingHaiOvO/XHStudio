@@ -5,9 +5,11 @@ import cn.xh_net.studio.entity.User;
 import cn.xh_net.studio.result.PageResult;
 import cn.xh_net.studio.result.Result;
 import cn.xh_net.studio.service.IUserService;
+import cn.xh_net.studio.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +34,11 @@ public class MemberController {
     @GetMapping("/list")
     public Result<PageResult<User>> getMemberList(UserDTO userDTO) {
         return Result.success(userService.getMemberList(userDTO));
+    }
+
+    @GetMapping("/{id}")
+    public Result<MemberVO> getMemberDetail(@PathVariable Long id) {
+        return Result.success(userService.getMemberDetail(id));
     }
 
 }
