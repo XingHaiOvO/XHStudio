@@ -52,13 +52,20 @@ public class ProjectServiceImpl implements IProjectService {
         QueryWrapper<Project> wrapper = new QueryWrapper<>();
 
         // 项目状态
-        wrapper.eq(projectDTO.getStatus() != null, "status", projectDTO.getStatus());
+        Integer status = projectDTO.getStatus();
+        if (status != null) {
+            wrapper.eq("status", status);
+        }
 
         // 搜索关键词
-        wrapper.like("title", projectDTO.getKeyword());
+        String keyword = projectDTO.getKeyword();
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like("title", keyword);
+        }
 
         // 项目是否删除
         wrapper.eq("deleted", NOT_DELETED);
+
         projectMapper.selectPage(page, wrapper);
         return new PageResult<>(page.getTotal(), page.getRecords());
     }

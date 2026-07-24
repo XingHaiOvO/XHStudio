@@ -56,8 +56,6 @@ public class UserServiceImpl implements IUserService {
         // 构造分页查询参数
         Page<User> page = new Page<>(userDTO.getPage(), userDTO.getSize());
 
-        // 构造查询条件
-
         // 构造角色id列表
         List<Long> roleIds = new ArrayList<>();
         if ("admin".equals(userDTO.getRole())) {
@@ -67,13 +65,21 @@ public class UserServiceImpl implements IUserService {
             roleIds.add(ROLE_MEMBER);
         }
 
+        // 构造查询条件
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.in(!roleIds.isEmpty(), "role_id", roleIds);
+        if (!roleIds.isEmpty()) {
+            wrapper.in("role_id", roleIds);
+        }
 
         // 昵称查询
-        wrapper.like("nickname", userDTO.getKeyword());
+        String keyword = userDTO.getKeyword();
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like("nickname", keyword);
+        }
 
+        // 用户是否删除
         wrapper.eq("deleted", NOT_DELETED);
+
         userMapper.selectPage(page, wrapper);
         return new PageResult<>(page.getTotal(), page.getRecords());
     }
