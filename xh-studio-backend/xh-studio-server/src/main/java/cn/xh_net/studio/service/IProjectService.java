@@ -3,6 +3,7 @@ package cn.xh_net.studio.service;
 import cn.xh_net.studio.dto.ProjectDTO;
 import cn.xh_net.studio.entity.Project;
 import cn.xh_net.studio.result.PageResult;
+import cn.xh_net.studio.vo.ProjectVO;
 
 
 public interface IProjectService {
@@ -14,4 +15,10 @@ public interface IProjectService {
      */
     PageResult<Project> getProjectList(ProjectDTO projectDTO);
 
+    /**
+     * 获取项目详情
+     * @param id 项目ID
+     * @return 项目详情
+     */
+    ProjectVO getProjectById(Long id);
 }

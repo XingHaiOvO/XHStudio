@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectMilestone  implements Serializable {
+public class Milestone implements Serializable {
 
     // 主键
     private Integer id;

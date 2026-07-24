@@ -7,6 +7,7 @@ import cn.xh_net.studio.result.PageResult;
 import cn.xh_net.studio.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,13 +22,10 @@ import static cn.xh_net.studio.constant.CommonConstant.*;
  * @description 用户服务实现类
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
     private final UserMapper userMapper;
-
-    public UserServiceImpl(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     /**
      * 根据邮箱查询用户

@@ -17,9 +17,9 @@ public class ProjectConstant {
     public static final Integer PROGRESS_MIN = 0;
     public static final Integer PROGRESS_MAX = 100;
 
-    // 项目成员角色（0：普通成员，1：项目负责人）
-    public static final Integer ROLE_MEMBER = 0;
-    public static final Integer ROLE_LEADER = 1;
+    // 项目成员角色（PARTICIPANT：普通成员，OWNER：项目负责人）
+    public static final String ROLE_MEMBER = "PARTICIPANT";
+    public static final String ROLE_LEADER = "OWNER";
 
     // 项目里程碑状态（0：未完成，1：已完成）
     public static final Integer MILESTONE_STATUS_UNCOMPLETED = 0;

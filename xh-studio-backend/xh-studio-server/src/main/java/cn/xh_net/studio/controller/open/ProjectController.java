@@ -5,9 +5,11 @@ import cn.xh_net.studio.entity.Project;
 import cn.xh_net.studio.result.PageResult;
 import cn.xh_net.studio.result.Result;
 import cn.xh_net.studio.service.IProjectService;
+import cn.xh_net.studio.vo.ProjectVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +36,17 @@ public class ProjectController {
     public Result<PageResult<Project>> getProjectList (ProjectDTO projectDTO) {
         log.info("获取项目列表，参数：{}", projectDTO);
         return Result.success(projectService.getProjectList(projectDTO));
+    }
+
+    /**
+     * 获取项目详情
+     * @param id 项目ID
+     * @return 项目详情
+     */
+    @GetMapping("/{id}")
+    public Result<ProjectVO> getProjectById(@PathVariable Long id) {
+        log.info("获取项目详情，参数：{}", id);
+        return Result.success(projectService.getProjectById(id));
     }
 
 }

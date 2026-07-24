@@ -21,16 +21,16 @@ import java.time.LocalDateTime;
 public class ProjectMember  implements Serializable {
 
     // 主键
-    private Integer id;
+    private Long id;
 
     // 项目ID
-    private Integer projectId;
+    private Long projectId;
 
     // 成员ID
-    private Integer userId;
+    private Long userId;
 
-    // 成员角色（0：普通成员，1：项目负责人）
-    private Integer roleInProject;
+    // 成员角色（PARTICIPANT：普通成员，OWNER：项目负责人）
+    private String roleInProject;
 
     // 成员是否删除（0：未删除，1：已删除）
     private Integer deleted;
@@ -41,4 +41,9 @@ public class ProjectMember  implements Serializable {
     // 更新时间
     private LocalDateTime updateTime;
 
+    // 成员昵称
+    private String userNickname;
+
+    // 成员头像url
+    private String userAvatar;
 }
