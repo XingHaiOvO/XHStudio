@@ -45,7 +45,7 @@ public class Project implements Serializable {
     private LocalDate startDate;
 
     // 项目结束时间
-    private LocalDate endTime;
+    private LocalDate endDate;
 
     // 项目url
     private String projectUrl;

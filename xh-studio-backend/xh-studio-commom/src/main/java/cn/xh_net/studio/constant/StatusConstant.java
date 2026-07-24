@@ -22,4 +22,7 @@ public class StatusConstant {
 
     // 服务器错误
     public static final Integer SERVER_ERROR = 500;
+
+    // 成功消息
+    public static final String SUCCESS_MESSAGE = "success";
 }

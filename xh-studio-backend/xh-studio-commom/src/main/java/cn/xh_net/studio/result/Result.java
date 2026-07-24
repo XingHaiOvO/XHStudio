@@ -1,5 +1,6 @@
 package cn.xh_net.studio.result;
 
+import cn.xh_net.studio.constant.StatusConstant;
 import lombok.Data;
 
 import static cn.xh_net.studio.constant.StatusConstant.SERVER_ERROR;
@@ -7,7 +8,9 @@ import static cn.xh_net.studio.constant.StatusConstant.SUCCESS;
 
 /**
  * 统一响应结果
- * @param <T>
+ * @author XingHai
+ * @date 2026/7/12
+ * @description 统一响应结果
  */
 @Data
 public class Result<T> {
@@ -17,26 +20,26 @@ public class Result<T> {
 
     /**
      * 成功响应
-     * @param <T>
+     * @param <T> 响应数据类型
      * @return 成功响应结果
      */
     public static <T> Result<T> success() {
         Result<T> result = new Result<>();
         result.code = SUCCESS;
-        result.message = "success";
+        result.message = StatusConstant.SUCCESS_MESSAGE;
         return result;
     }
 
     /**
      * 成功响应
-     * @param <T>
+     * @param <T> 响应数据类型
      * @param data 响应数据
      * @return 成功响应结果
      */
     public static <T> Result<T> success(T data) {
         Result<T> result = new Result<>();
         result.code = SUCCESS;
-        result.message = "success";
+        result.message = StatusConstant.SUCCESS_MESSAGE;
         result.data = data;
         return result;
     }
@@ -52,7 +55,7 @@ public class Result<T> {
 
     /**
      * 错误响应
-     * @param <T>
+     * @param <T> 响应数据类型
      * @param code 错误码
      * @param msg 错误消息
      * @return 错误响应结果
